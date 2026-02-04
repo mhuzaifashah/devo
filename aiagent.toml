@@ -1,0 +1,6 @@
+[agent]
+# provider = "openai"
+# model = "gpt-4o-mini"
+# workdir = "calculator"
+max_iters = 20
+temperature = 0.2
