@@ -23,7 +23,11 @@ def build_tools(workdir):
         return write_file(workdir, file_path=file_path, content=content)
 
     @tool
-    def run_python(file_path: str, args: list[str] | None = None) -> str:
+    def run_python(
+        file_path: str,
+        args: list[str] | None = None,
+        **_ignored: object,
+    ) -> str:
         """Run a Python file relative to the working directory."""
         return run_python_file(workdir, file_path=file_path, args=args or [])
 

@@ -1,5 +1,5 @@
-from langchain.agents import AgentExecutor, create_tool_calling_agent
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain.agents.factory import create_agent
+from langchain_core.messages import HumanMessage
 
 from aiagent.providers import get_llm
 from aiagent.tools import build_tools
@@ -21,24 +21,23 @@ All paths you provide should be relative to the working directory.
 """
 
 
+def _extract_output(result):
+    messages = result.get("messages", [])
+    if not messages:
+        return ""
+    last = messages[-1]
+    return getattr(last, "content", "") or ""
+
+
 def run_agent(prompt, provider, model, workdir, max_iters=20, temperature=0.2, verbose=False):
     llm = get_llm(provider, model, temperature=temperature)
     tools = build_tools(workdir)
 
-    prompt_template = ChatPromptTemplate.from_messages(
-        [
-            ("system", SYSTEM_PROMPT),
-            ("human", "{input}"),
-            MessagesPlaceholder("agent_scratchpad"),
-        ]
-    )
-
-    agent = create_tool_calling_agent(llm, tools, prompt_template)
-    executor = AgentExecutor(
-        agent=agent,
+    agent = create_agent(
+        model=llm,
         tools=tools,
-        verbose=verbose,
-        max_iterations=max_iters,
+        system_prompt=SYSTEM_PROMPT,
+        debug=verbose,
     )
-    result = executor.invoke({"input": prompt})
-    return result.get("output", "")
+    result = agent.invoke({"messages": [HumanMessage(prompt)]})
+    return _extract_output(result)
