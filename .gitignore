@@ -21,6 +21,9 @@ build/
 # Package manager
 uv.lock
 
+# Agent runtime data
+.aiagent/
+
 # IDE / Editor
 .vscode/
 .idea/

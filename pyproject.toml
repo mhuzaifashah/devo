@@ -12,4 +12,5 @@ dependencies = [
     "langchain-ollama==1.0.1",
     "langchain-openai==1.1.7",
     "python-dotenv==1.1.0",
+    "rich==13.9.4",
 ]

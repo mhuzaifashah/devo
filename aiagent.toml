@@ -1,6 +1,45 @@
 [agent]
-provider = "groq"
-model = "openai/gpt-oss-120b"
-workdir = "calculator"
-max_iters = 20
+provider = ""
+model = ""
+workdir = ""
+max_iters = 30
 temperature = 0.2
+safety_mode = "guarded"
+
+[workspaces]
+primary = ""
+additional = []
+use_git_worktrees = false
+
+[safety]
+mode = "guarded"
+allow_unsafe_shell = false
+auto_rollback = false
+safe_commands = ["dir", "ls", "rg", "type", "cat", "git", "py", "python", "pytest"]
+
+[hooks]
+pre = []
+post = []
+
+[openrouter]
+base_url = "https://openrouter.ai/api/v1"
+site_url = ""
+app_name = ""
+
+[azure_openai]
+endpoint = ""
+api_version = ""
+deployment = ""
+model_name = ""
+
+[memory]
+enabled = true
+session_dir = ".aiagent/sessions"
+max_history_messages = 20
+context_budget = 150000
+
+[compaction]
+enabled = true
+trigger_ratio = 0.8
+prune_tool_outputs = true
+tool_output_keep = 5
