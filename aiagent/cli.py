@@ -100,7 +100,7 @@ def main():
 
     ui = ConsoleUI(enabled=not args.plain)
     workspace_manager = build_workspace_manager(settings)
-    ui.banner(provider, model, workspace_manager.list(), settings["safety_mode"])
+    ui.banner(provider, model, workspace_manager, settings["safety_mode"])
 
     if args.once:
         if not args.prompt:
@@ -167,7 +167,7 @@ def main():
 
     try:
         while True:
-            user_prompt = input("devo> ").strip()
+            user_prompt = ui.prompt().strip()
             if not user_prompt:
                 continue
             _run_turn(user_prompt)

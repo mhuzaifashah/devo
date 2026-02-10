@@ -13,4 +13,5 @@ dependencies = [
     "langchain-openai==1.1.7",
     "python-dotenv==1.1.0",
     "rich==13.9.4",
+    "rich-pyfiglet==1.0.0",
 ]
