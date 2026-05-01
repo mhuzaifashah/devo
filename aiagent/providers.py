@@ -19,8 +19,7 @@ ALLOWED_PROVIDERS = {
     "azure-openai",
 }
 
-
-def _openrouter_headers(settings):
+def openrouter_headers(settings: dict[str, object]) -> dict[str, str] | None:
     headers = {}
     site_url = os.environ.get("OPENROUTER_SITE_URL") or settings.get("site_url")
     app_name = os.environ.get("OPENROUTER_APP_NAME") or settings.get("app_name")
@@ -31,7 +30,12 @@ def _openrouter_headers(settings):
     return headers or None
 
 
-def get_llm(provider, model, temperature=0.2, settings=None):
+def get_llm(
+    provider: str,
+    model: str,
+    temperature: float = 0.2,
+    settings: dict[str, object] | None = None,
+) -> object:
     if not provider or not model:
         raise ValueError("Provider and model are required.")
     provider = provider.lower().strip()
@@ -60,7 +64,7 @@ def get_llm(provider, model, temperature=0.2, settings=None):
             temperature=temperature,
             api_key=api_key,
             base_url=base_url,
-            default_headers=_openrouter_headers(settings),
+            default_headers=openrouter_headers(settings),
         )
     if provider in {"azure_openai", "azure-openai"}:
         azure_endpoint = settings.get("endpoint") or os.environ.get("AZURE_OPENAI_ENDPOINT")

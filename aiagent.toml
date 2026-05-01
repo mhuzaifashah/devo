@@ -1,13 +1,13 @@
 [agent]
-provider = ""
-model = ""
+provider = "groq"
+model = "openai/gpt-oss-120b"
 workdir = ""
 max_iters = 30
 temperature = 0.2
 safety_mode = "guarded"
 
 [workspaces]
-primary = ""
+primary = 'D:\Code\Python\AGENT CODING\frontend'
 additional = []
 use_git_worktrees = false
 
@@ -15,7 +15,7 @@ use_git_worktrees = false
 mode = "guarded"
 allow_unsafe_shell = false
 auto_rollback = false
-safe_commands = ["dir", "ls", "rg", "type", "cat", "git", "py", "python", "pytest"]
+unsafe_commands = ["rm", "rmdir", "del", "erase", "remove-item", "format", "mkfs", "shutdown"]
 
 [hooks]
 pre = []
@@ -42,4 +42,4 @@ context_budget = 150000
 enabled = true
 trigger_ratio = 0.8
 prune_tool_outputs = true
-tool_output_keep = 5
+tool_output_keep = 10

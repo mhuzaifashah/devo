@@ -1,12 +1,12 @@
-class ConsoleUI:
-    def __init__(self, enabled=True):
+class Console:
+    def __init__(self, enabled: bool = True) -> None:
         self.enabled = enabled
-        self._console = None
-        self._accent = "#cfecf7"
-        self._logo_colors = ("#cfecf7", "#cfecf7")
+        self.console = None
+        self.accent = "#cfecf7"
+        self.logo_colors = ("#cfecf7", "#cfecf7")
         if enabled:
             try:
-                from rich.console import Console
+                from rich.console import Console as RichConsole
                 from rich.theme import Theme
             except Exception:
                 self.enabled = False
@@ -17,29 +17,29 @@ class ConsoleUI:
                     "warning": "yellow",
                     "error": "red",
                     "ok": "green",
-                    "accent": self._accent,
+                    "accent": self.accent,
                 }
             )
-            self._console = Console(theme=theme)
+            self.console = RichConsole(theme=theme)
 
-    def _lerp_color(self, start_hex, end_hex, t):
+    def color_mix(self, start_hex: str, end_hex: str, ratio: float) -> str:
         start_hex = start_hex.lstrip("#")
         end_hex = end_hex.lstrip("#")
-        sr, sg, sb = [int(start_hex[i : i + 2], 16) for i in (0, 2, 4)]
-        er, eg, eb = [int(end_hex[i : i + 2], 16) for i in (0, 2, 4)]
-        r = int(sr + (er - sr) * t)
-        g = int(sg + (eg - sg) * t)
-        b = int(sb + (eb - sb) * t)
-        return f"#{r:02x}{g:02x}{b:02x}"
+        start = [int(start_hex[i : i + 2], 16) for i in (0, 2, 4)]
+        end = [int(end_hex[i : i + 2], 16) for i in (0, 2, 4)]
+        red = int(start[0] + (end[0] - start[0]) * ratio)
+        green = int(start[1] + (end[1] - start[1]) * ratio)
+        blue = int(start[2] + (end[2] - start[2]) * ratio)
+        return f"#{red:02x}{green:02x}{blue:02x}"
 
-    def _build_logo(self, width):
+    def logo_make(self, width: int) -> object:
         try:
             from rich_pyfiglet import RichFiglet
 
             return RichFiglet(
                 "DEVO",
                 font="ansi_shadow",
-                colors=list(self._logo_colors),
+                colors=list(self.logo_colors),
                 horizontal=True,
                 width=width,
                 remove_blank_lines=True,
@@ -51,7 +51,7 @@ class ConsoleUI:
         except Exception:
             return "DEVO"
 
-        art_lines = [
+        rows = [
             " _____  _____  _   _  _____ ",
             "|  __ \\|  ___|| | | ||  _  |",
             "| |  \\/| |__  | | | || | | |",
@@ -59,88 +59,81 @@ class ConsoleUI:
             "| |_\\ \\| |___ \\ \\_/ /\\ \\_/ /",
             " \\____/\\____/  \\___/  \\___/ ",
         ]
-        max_len = max(len(line) for line in art_lines)
-        start, end = self._logo_colors
+        row_len = max(len(line) for line in rows)
+        start, end = self.logo_colors
         text = Text()
-        for line in art_lines:
-            padded = line.ljust(max_len)
-            for idx, ch in enumerate(padded):
-                if ch == " ":
-                    text.append(ch)
+        for line in rows:
+            for index, char in enumerate(line.ljust(row_len)):
+                if char == " ":
+                    text.append(char)
                     continue
-                color = self._lerp_color(start, end, idx / max(1, max_len - 1))
-                text.append(ch, style=color)
+                color = self.color_mix(start, end, index / max(1, row_len - 1))
+                text.append(char, style=color)
             text.append("\n")
         return text
 
-    def banner(self, provider, model, workspace_manager, safety_mode):
-        if not self.enabled or not self._console:
+    def banner(self, provider: str, model: str, workspace: object, safety_mode: str) -> None:
+        if not self.enabled or not self.console:
             return
         try:
+            from rich.align import Align
             from rich.panel import Panel
             from rich.table import Table
-            from rich.align import Align
             from rich.text import Text
         except Exception:
             return
 
-        console_width = self._console.size.width if self._console else 80
-        total_gap = 2
-        box_width = max(32, int((console_width - total_gap) / 2))
-        art = self._build_logo(box_width)
+        width = self.console.size.width
+        gap = 2
+        box = max(32, int((width - gap) / 2))
+        art = self.logo_make(box)
         info = Text(
-            f"MODEL: {model}\nPROVIDER: {provider}\nWORKSPACE: {workspace_manager.default_name}"
+            f"MODEL: {model}\nPROVIDER: {provider}\nWORKSPACE: {workspace.default_name}"
         )
 
         logo_height = art.height if hasattr(art, "height") else len(str(art).splitlines())
-        top_pad = 1
-        bottom_pad = 1
-        info_lines = info.plain.splitlines()
-        info_height = len(info_lines) + top_pad + bottom_pad
-        logo_total = logo_height + top_pad + bottom_pad
-        if info_height < logo_total:
-            extra = logo_total - info_height
-            extra_top = extra // 2
-            extra_bottom = extra - extra_top
-        else:
-            extra_top = 0
-            extra_bottom = 0
-
-        info_pad_top = top_pad + extra_top
-        info_pad_bottom = bottom_pad + extra_bottom
+        body_pad = 1
+        info_height = len(info.plain.splitlines()) + body_pad + body_pad
+        logo_total = logo_height + body_pad + body_pad
+        extra = max(0, logo_total - info_height)
+        pad_top = body_pad + (extra // 2)
+        pad_bottom = body_pad + (extra - (extra // 2))
 
         table = Table.grid(expand=True)
-        table.add_column(width=box_width)
-        table.add_column(width=box_width)
-        logo_panel = Panel(art, border_style="accent", padding=(1, 1), width=box_width)
+        table.add_column(width=box)
+        table.add_column(width=box)
+        logo_panel = Panel(art, border_style="accent", padding=(1, 1), width=box)
         info_panel = Panel(
             Align.left(info),
             border_style="accent",
-            padding=(info_pad_top, 2, info_pad_bottom, 2),
-            width=box_width,
+            padding=(pad_top, 2, pad_bottom, 2),
+            width=box,
         )
         table.add_row(logo_panel, info_panel)
-        self._console.print(table)
+        self.console.print(table)
 
-    def prompt(self):
-        if self.enabled and self._console:
-            return self._console.input(f"[{self._accent}]devo[/] ")
+    def prompt(self) -> str:
+        if self.enabled and self.console:
+            return self.console.input(f"[{self.accent}]devo[/] ")
         return input("devo ")
 
-    def print_info(self, message):
-        if self.enabled and self._console:
-            self._console.print(message, style="info")
-        else:
-            print(message)
+    def print_info(self, message: str) -> None:
+        if self.enabled and self.console:
+            self.console.print(message, style="info")
+            return
+        print(message)
 
-    def print_error(self, message):
-        if self.enabled and self._console:
-            self._console.print(message, style="error")
-        else:
-            print(message)
+    def print_error(self, message: str) -> None:
+        if self.enabled and self.console:
+            self.console.print(message, style="error")
+            return
+        print(message)
 
-    def print_output(self, output):
-        if self.enabled and self._console:
-            self._console.print(output)
-        else:
-            print(output)
+    def print_output(self, output: str) -> None:
+        if self.enabled and self.console:
+            self.console.print(output)
+            return
+        print(output)
+
+
+ConsoleUI = Console

@@ -1,28 +1,46 @@
-from functions.get_files_info import get_files_info
-from functions.get_file_content import get_file_content
-from functions.write_file import write_file
-from functions.run_python_file import run_python_file
+from dataclasses import dataclass
+from aiagent.tools import get_file_content, get_files_info, run_shell_command, write_file
 
-working_dir = "calculator"
+WORKDIR = "calculator"
 
 
-def call_function(function_call_part, verbose=False):
+@dataclass
+class Call:
+    name: str
+    args: dict[str, object]
+
+
+def call_function(function_call_part: Call, verbose: bool = False) -> dict[str, object]:
     if verbose:
         print(f"Calling function: {function_call_part.name}({function_call_part.args})")
-    else:
+    if not verbose:
         print(f" - Calling function: {function_call_part.name}")
 
-    result = ""
     if function_call_part.name == "get_files_info":
-        result = get_files_info(working_dir, **function_call_part.args)
+        result = get_files_info(WORKDIR, **function_call_part.args)
+        return {"result": result}
+
     if function_call_part.name == "get_file_content":
-        result = get_file_content(working_dir, **function_call_part.args)
+        result = get_file_content(WORKDIR, **function_call_part.args)
+        return {"result": result}
+
     if function_call_part.name == "write_file":
-        result = write_file(working_dir, **function_call_part.args)
-    if function_call_part.name == "run_python_file":
-        result = run_python_file(working_dir, **function_call_part.args)
+        result = write_file(WORKDIR, **function_call_part.args)
+        return {"result": result}
 
-    if result == "":
-        return {"error": f"Unknown function: {function_call_part.name}"}
+    if function_call_part.name == "run_shell_command":
+        args = dict(function_call_part.args)
+        command = str(args.pop("command", ""))
+        safe_mode = bool(args.pop("safe_mode", True))
+        safe_prefixes = args.pop("safe_prefixes", None)
+        timeout = int(args.pop("timeout", 30))
+        result = run_shell_command(
+            WORKDIR,
+            command=command,
+            safe_mode=safe_mode,
+            safe_prefixes=safe_prefixes,
+            timeout=timeout,
+        )
+        return {"result": result}
 
-    return {"result": result}
+    return {"error": f"Unknown function: {function_call_part.name}"}

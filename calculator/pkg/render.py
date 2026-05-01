@@ -1,9 +1,9 @@
 # render.py
 
-def render(expression, result):
+def render(expression: str, result: float | int | None) -> str:
     if isinstance(result, float) and result.is_integer():
         result_str = str(int(result))
-    else:
+    if not (isinstance(result, float) and result.is_integer()):
         result_str = str(result)
 
     box_width = max(len(expression), len(result_str)) + 4

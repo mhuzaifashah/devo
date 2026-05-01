@@ -1,0 +1,78 @@
+:root {
+    --bg: #091116;
+    --panel: #101b24;
+    --text: #cfecf7;
+    --muted: #95a8b1;
+    --accent: #5fb9d6;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(circle at 20% 10%, #163245 0%, var(--bg) 60%);
+    color: var(--text);
+}
+
+.page {
+    min-height: 100vh;
+}
+
+main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+}
+
+.section {
+    margin-top: 32px;
+    padding: 28px;
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--panel) 84%, transparent);
+    border: 1px solid #2c4655;
+}
+
+.hero h1 {
+    margin-top: 0;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.card {
+    border-radius: 12px;
+    padding: 18px;
+    background: #132530;
+    border: 1px solid #2a4250;
+}
+
+.cta {
+    margin-top: 10px;
+    border: 1px solid #5baeca;
+    background: linear-gradient(180deg, #61b9d6 0%, #2f7f9b 100%);
+    color: #081217;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.cta:hover {
+    filter: brightness(1.06);
+}
+
+.cta:focus-visible {
+    outline: 2px solid #9bd9ee;
+    outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+}

@@ -11,7 +11,15 @@ dependencies = [
     "langchain-groq==1.1.2",
     "langchain-ollama==1.0.1",
     "langchain-openai==1.1.7",
+    "pytest==8.3.5",
     "python-dotenv==1.1.0",
     "rich==13.9.4",
     "rich-pyfiglet==1.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "integration: tests that call real providers or external workspaces",
 ]
