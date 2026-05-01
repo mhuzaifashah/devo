@@ -23,6 +23,20 @@ uv.lock
 
 # Agent runtime data
 .aiagent/
+.aiagent_toolcheck/
+.aiagent_toolcheck_wrapped/
+.aiagent_toolcheck2/
+.aiagent_toolcheck2_wrapped/
+.pytest_cache/
+.github/
+
+# GitHub config
+.github/
+
+# Test cache
+.pytest_cache/
+.coverage
+htmlcov/
 
 # IDE / Editor
 .vscode/
@@ -34,3 +48,4 @@ uv.lock
 # OS specific
 .DS_Store
 Thumbs.db
+desktop.ini
