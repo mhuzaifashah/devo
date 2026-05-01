@@ -30,14 +30,16 @@ def render_prompt(content: str) -> str:
 
 
 def load_prompt(project_root: str) -> str:
-    system_path = os.path.join(project_root, "system.md")
+    user_path = os.path.join(project_root, "system.md")
+    bundle_path = os.path.join(os.path.dirname(__file__), "prompts", "system.md")
+    system_path = user_path if os.path.exists(user_path) else bundle_path
     try:
         with open(system_path, "r", encoding="utf-8") as f:
             content = f.read().strip()
     except Exception as e:
         raise ValueError(f"Failed to load system prompt: {e}")
     if not content:
-        raise ValueError("System prompt is empty. Populate system.md.")
+        raise ValueError("System prompt is empty. Populate src/prompts/system.md.")
     return render_prompt(content)
 
 

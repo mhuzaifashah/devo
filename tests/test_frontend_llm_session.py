@@ -91,7 +91,7 @@ def test_session_prompt_suite_frontend(tmp_path: Path) -> None:
 
     project_root = tmp_path / "project"
     project_root.mkdir(parents=True, exist_ok=True)
-    system_source = Path(__file__).resolve().parents[1] / "system.md"
+    system_source = Path(__file__).resolve().parents[1] / "src" / "prompts" / "system.md"
     (project_root / "system.md").write_text(system_source.read_text(encoding="utf-8"), encoding="utf-8")
 
     manager = Workspace(
