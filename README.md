@@ -1,4 +1,6 @@
-# devo (aiagent)
+<p align="center">
+  <img src="devo.svg" alt="devo" />
+</p>
 
 **devo** is an interactive CLI coding agent that works with any LLM provider. Give it a task and it reads files, edits code, runs shell commands, and tracks every change — with full rollback support.
 
