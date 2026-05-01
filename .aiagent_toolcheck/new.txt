@@ -1,4 +1,0 @@
-alpha
-INSERTED
-BETA
-TAIL
