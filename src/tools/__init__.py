@@ -1,4 +1,4 @@
-from aiagent.tools.files import (
+from src.tools.files import (
     append_file,
     edit_file,
     get_file_content,
@@ -6,8 +6,8 @@ from aiagent.tools.files import (
     insert_file,
     write_file,
 )
-from aiagent.tools.registry import build_tools
-from aiagent.tools.shell import run_shell_command
+from src.tools.registry import build_tools
+from src.tools.shell import run_shell_command
 
 __all__ = [
     "append_file",

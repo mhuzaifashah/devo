@@ -1,7 +1,7 @@
 import os
 from collections.abc import Iterable
 
-from aiagent.tools.common import clamp_int, detect_newline, is_within_directory, to_abs_path
+from src.tools.common import clamp_int, detect_newline, is_within_directory, to_abs_path
 
 DEFAULT_MAX_CHARS = 16000
 DEFAULT_CONTEXT_LINES = 200

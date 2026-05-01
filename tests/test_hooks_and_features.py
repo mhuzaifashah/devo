@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from aiagent.tools import build_tools
-from aiagent.workspaces import Workspace
+from src.tools import build_tools
+from src.workspaces import Workspace
 
 
 def settings_build(project_root: Path, hook_pre: list[str] | None = None, hook_post: list[str] | None = None) -> dict[str, object]:

@@ -6,10 +6,10 @@ from pathlib import Path
 
 import pytest
 
-from aiagent.agent import run_agent
-from aiagent.session_store import SessionStore
-from aiagent.settings import unsafe_default
-from aiagent.workspaces import Workspace
+from src.agent import run_agent
+from src.session_store import SessionStore
+from src.settings import unsafe_default
+from src.workspaces import Workspace
 
 PROMPTS = [
     "Call list_workspaces and report workspace names.",

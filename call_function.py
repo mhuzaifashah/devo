@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from aiagent.tools import get_file_content, get_files_info, run_shell_command, write_file
+from src.tools import get_file_content, get_files_info, run_shell_command, write_file
 
-WORKDIR = "calculator"
+WORKDIR = "tests/calculator"
 
 
 @dataclass

@@ -4,8 +4,8 @@ from pathlib import Path
 
 from langchain_core.messages import AIMessage
 
-from aiagent import agent as agent_module
-from aiagent.compaction import compact_history, estimate_messages_tokens, prune_tool_outputs
+from src import agent as agent_module
+from src.compaction import compact_history, estimate_messages_tokens, prune_tool_outputs
 
 
 class SummaryModel:

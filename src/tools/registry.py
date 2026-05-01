@@ -4,10 +4,10 @@ from typing import Protocol
 
 from langchain_core.tools import BaseTool, tool
 
-from aiagent.checkpoints import CheckpointManager
-from aiagent.hooks import HookManager
-from aiagent.tools.common import is_within_directory
-from aiagent.tools.files import (
+from src.checkpoints import CheckpointManager
+from src.hooks import HookManager
+from src.tools.common import is_within_directory
+from src.tools.files import (
     append_file,
     edit_file,
     get_file_content,
@@ -15,7 +15,7 @@ from aiagent.tools.files import (
     insert_file,
     write_file,
 )
-from aiagent.tools.shell import run_shell_command
+from src.tools.shell import run_shell_command
 
 
 class Workspace(Protocol):

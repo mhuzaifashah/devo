@@ -27,10 +27,6 @@ uv.lock
 .aiagent_toolcheck_wrapped/
 .aiagent_toolcheck2/
 .aiagent_toolcheck2_wrapped/
-.pytest_cache/
-.github/
-
-# GitHub config
 .github/
 
 # Test cache

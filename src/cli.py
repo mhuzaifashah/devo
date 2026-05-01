@@ -3,11 +3,11 @@ from __future__ import annotations
 import argparse
 import os
 
-from aiagent.agent import run_agent
-from aiagent.session_store import SessionStore
-from aiagent.settings import load_settings
-from aiagent.ui import ConsoleUI
-from aiagent.workspaces import WorkspaceManager, build_workspace_manager
+from src.agent import run_agent
+from src.session_store import SessionStore
+from src.settings import load_settings
+from src.ui import ConsoleUI
+from src.workspaces import WorkspaceManager, build_workspace_manager
 
 Settings = dict[str, object]
 Message = dict[str, object]

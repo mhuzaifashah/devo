@@ -7,10 +7,10 @@ from langchain.agents.factory import create_agent
 from langchain.agents.middleware.tool_call_limit import ToolCallLimitMiddleware
 from langchain_core.messages import AIMessage, HumanMessage
 
-from aiagent.compaction import compact_history, estimate_context_tokens, prune_tool_outputs
-from aiagent.providers import get_llm
-from aiagent.rules import load_rules
-from aiagent.tools import build_tools
+from src.compaction import compact_history, estimate_context_tokens, prune_tool_outputs
+from src.providers import get_llm
+from src.rules import load_rules
+from src.tools import build_tools
 
 Message = dict[str, object]
 History = list[Message]
